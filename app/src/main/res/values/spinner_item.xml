@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_entries">
+        <item>제품명</item>
+        <item>효능</item>
+        <item>주의사항경고</item>
+        <item>주의사항2</item>
+
+
+
+    </string-array>
+</resources>
