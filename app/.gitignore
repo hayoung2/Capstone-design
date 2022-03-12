@@ -1,2 +1,5 @@
 /build
 /src/main/res/values/strings.xml
+
+/main/java/com.example.testapp/RetrofitClient.kt
+/main/jniLibs

@@ -13,6 +13,9 @@ import com.example.testapp.fragments.SearchFragment
 
 class MainActivity : AppCompatActivity() {
 
+    companion object{
+        var selectedNum :String ="0"
+    }
 
     private var mBinding: ActivityMainBinding? = null
     private val binding get() = mBinding!!
@@ -33,6 +36,7 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.frameLayout,homeFragment)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .commit()
+
 
         binding.BottomNavMenu.setOnNavigationItemSelectedListener { item->
             when(item.itemId){

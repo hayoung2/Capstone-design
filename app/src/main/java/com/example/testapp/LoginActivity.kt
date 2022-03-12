@@ -13,6 +13,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.auth.LoginClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
@@ -21,7 +23,7 @@ import com.kakao.sdk.user.model.User
 
 class LoginActivity : AppCompatActivity() {
     companion object{
-        var currentUser: User?=null
+        var currentUser: String?=null
     }
     private var mBinding: ActivityLoginBinding? = null
     private val binding get() = mBinding!!
@@ -29,6 +31,8 @@ class LoginActivity : AppCompatActivity() {
     private val RC_SIGN_IN=9001
     private var googleSignInClient: GoogleSignInClient?=null
     private var firebaseAuth: FirebaseAuth?=null
+    val database : FirebaseDatabase = FirebaseDatabase.getInstance()
+    val myRef : DatabaseReference = database.reference
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,20 +59,19 @@ class LoginActivity : AppCompatActivity() {
 
         }
 
-        binding.signup.setOnClickListener {
 
-        }
 
 
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
             if (error != null) {
-                Toast.makeText(this, "토큰 정보 보기 실패", Toast.LENGTH_SHORT).show()
+
             }
             else if (tokenInfo != null) {
                 Toast.makeText(this, "토큰 정보 보기 성공", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 UserApiClient.instance.me { user, error ->
-                    currentUser=user
+                    currentUser=user?.id.toString()
+                    myRef.child("User").child(user?.id.toString()).setValue(User(user?.kakaoAccount?.profile?.nickname.toString()))
                 }
 
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
@@ -145,11 +148,18 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth!!.signInWithCredential(credential).addOnCompleteListener(this){
             if (it.isSuccessful){
                 val user=firebaseAuth?.currentUser
-                Toast.makeText(this,"성공",Toast.LENGTH_SHORT).show()
+                currentUser=user?.uid
+                myRef.child("User").child(user!!.uid).setValue(User(user.displayName.toString()))
+               val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                finish()
             }else{
                 Toast.makeText(this,"실패",Toast.LENGTH_SHORT).show()
             }
         }
     }
+
+
+    data class User(var name:String)
 
 }
