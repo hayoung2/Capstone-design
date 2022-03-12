@@ -1,24 +1,30 @@
 package com.example.testapp
 
 
+import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
+
 object RetrofitClient {
     private const val BASE_URL = "http://apis.data.go.kr/"
     private var retrofit: Retrofit? = null
+
     val client: Retrofit
+
         get() {
+
+            var gson = GsonBuilder().setLenient().create()
+
             while (retrofit == null) {
-                retrofit= Retrofit.Builder().baseUrl(BASE_URL) .addConverterFactory(
-                    GsonConverterFactory.create()).build();
+                retrofit= Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(
+                    GsonConverterFactory.create(gson)).build();
             }
             return retrofit!!
         }
-
 
 }
 
@@ -83,8 +89,22 @@ data class hosItem(
     @SerializedName("addr") val addr:String?,
     @SerializedName("telno") val telno:String?,
     @SerializedName("hospUrl") val hospUrl:String?=null,
-    @SerializedName("XPos") val atpnWarnQesitm:String?,
-    @SerializedName("YPos") val atpnQesitm:String?
+    @SerializedName("drTotCnt") val drTotCnt:String,
+    @SerializedName("estbDd") val estbDd:String,
+    @SerializedName("XPos") val xPos:Double?,
+    @SerializedName("YPos") val yPos:Double?,
+    @SerializedName("distance") val distance:String,
+    @SerializedName("emdongNm") val emdongNm: String?,
+    @SerializedName("postNo") val postNo:String,
+    @SerializedName("sgguCd") val sgguCd:String,
+    @SerializedName("sgguCdNm") val sgguCdNm: String?,
+    @SerializedName("sidoCd") val sidoCd: Int?,
+    @SerializedName("sidoCdNm") val sidoCdNm: String?,
+    @SerializedName("clCd") val clCd:String,
+    @SerializedName("clCdNm") val clCdNm:String,
+
+
+
 )
 
 
