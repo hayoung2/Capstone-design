@@ -6,10 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import com.example.testapp.LoginActivity
+import com.example.testapp.MainActivity
 import com.example.testapp.R
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 
 class MedicineFragment : Fragment() {
+
+    val database : FirebaseDatabase = FirebaseDatabase.getInstance()
+    val myRef : DatabaseReference = database.reference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +36,9 @@ class MedicineFragment : Fragment() {
         return view
     }
 
+    fun getUserAlarmData() {
+        myRef.child("User").child(LoginActivity.currentUser.toString())
+    }
     companion object {
 
         @JvmStatic
