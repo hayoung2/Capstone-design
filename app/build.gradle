@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'kotlin-kapt'
 
+Properties properties = new Properties() properties.load(project.rootProject.file('local.properties').newDataInputStream())
 android {
     compileSdkVersion 31
     buildToolsVersion "30.0.3"
@@ -17,6 +17,10 @@ android {
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String","API_URL", properties['api.url']
+        buildConfigField "String","API_ENDPOINT",properties['api.endpoint']
+        buildConfigField "String","KEY_ENCODING",properties['key.Encoding']
+        buildConfigField "String","KEY_DECODING",properties['key.Decoding']
 
     }
 
@@ -90,8 +94,4 @@ dependencies {
     implementation files('libs/libDaumMapAndroid.jar')
 
 
-    implementation 'com.tickaroo.tikxml:annotation:0.8.13'
-    implementation 'com.tickaroo.tikxml:core:0.8.13'
-    implementation 'com.tickaroo.tikxml:retrofit-converter:0.8.13'
-    kapt 'com.tickaroo.tikxml:processor:0.8.13'
 }

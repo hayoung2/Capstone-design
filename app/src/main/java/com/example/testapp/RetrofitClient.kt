@@ -3,12 +3,6 @@ package com.example.testapp
 
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
-import com.tickaroo.tikxml.TikXml
-import com.tickaroo.tikxml.annotation.Element
-import com.tickaroo.tikxml.annotation.PropertyElement
-import com.tickaroo.tikxml.annotation.Xml
-import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory
-import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -31,8 +25,6 @@ object RetrofitClient {
             }
             return retrofit!!
         }
-
-
 
 }
 
@@ -63,9 +55,9 @@ data class hos_header(
 )
 
 data class hos_body(
-    @SerializedName("pageNo") val pageNo:Int?,
-    @SerializedName("totalCount") val totalCount:Int?,
-    @SerializedName("numOfRows") val numOfRows:Int?,
+    @SerializedName("pageNo") val pageNo:String?,
+    @SerializedName("totalCount") val totalCount:String?,
+    @SerializedName("numOfRows") val numOfRows:String?,
 
     @SerializedName("items") val items: List<hosItem>?
 )
@@ -111,33 +103,9 @@ data class hosItem(
     @SerializedName("clCd") val clCd:String,
     @SerializedName("clCdNm") val clCdNm:String,
 
-)
-@Xml(name="response")
-data class HosInfo(
-    @Element
-    val header: Header,
-    @Element
-    val body: Body,
-)
 
-@Xml(name = "header")
-data class Header(
-    @PropertyElement
-    val resultCode: Int,
-    @PropertyElement
-    val resultMsg: String,
-)
 
-@Xml
-data class Item(
-    @PropertyElement(name = "addr") var addr: String?,
-    @PropertyElement(name = "hospUrl") var hospUrl: String?,
-    @PropertyElement(name="yadmNm") var yadmNm: String?,
-    @PropertyElement(name="telno") var telno: String?,
-    @PropertyElement(name="XPos") var xPos: Double?,
-    @PropertyElement(name="YPos") var yPos: Double?
 )
-
 
 
 
@@ -177,7 +145,7 @@ interface API {
         @Query("yarmNm") yarmNm:String?=null,
         @Query("zipCd") zipCd:Int?=null,
         @Query("clCd") clCd:Int?=null,
-        @Query("dgsbjtCd") dgsbjtCd:String?=null,
+        @Query("dgsbjtCd") dgsbjtCd:Int?=null,
         @Query("xPos") xPos:Double?=null,
         @Query("yPos") yPos:Double?=null,
         @Query("radius") radius:Int?=null,
