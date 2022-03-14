@@ -3,15 +3,21 @@ package com.example.testapp
 
 import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
+import okhttp3.OkHttpClient
+import org.simpleframework.xml.Element
+import org.simpleframework.xml.ElementList
+import org.simpleframework.xml.Root
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import retrofit2.http.*
 
 
 object RetrofitClient {
     private const val BASE_URL = "http://apis.data.go.kr/"
     private var retrofit: Retrofit? = null
+    private var retrofit2: Retrofit? = null
 
     val client: Retrofit
 
@@ -25,17 +31,96 @@ object RetrofitClient {
             }
             return retrofit!!
         }
+    fun getXMLInstance() : API{
+
+        val xmlclient = OkHttpClient.Builder() .build()
+
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL).client(xmlclient)
+            .addConverterFactory(SimpleXmlConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build().create(API::class.java)
+    }
 
 }
+
+@Root(name="response", strict = false)
+class HosInfo @JvmOverloads constructor(
+    @field:Element(name = "header",required = false)
+    var header: Header?=null
+    ,
+    @field:Element(name = "body",required = false)
+    var body: Body?=null
+)
+
+@Root(name = "header", strict = false)
+class Header@JvmOverloads constructor(
+    @field:Element(name ="resultCode",required = false)
+    var resultCode: Int?=null,
+    @field:Element(name = "resultMsg",required = false)
+    var resultMsg: String?=null
+)
+
+@Root(name = "body")
+data class Body@JvmOverloads constructor(
+    @field:Element(name="items",required = false)
+    var items: Items?=null,
+    @field:Element(name = "numOfRows",required = false) var numOfRows: Int?=null,
+    @field:Element(name = "pageNo",required = false) var pageNo: Int?=null,
+    @field:Element(name = "totalCount",required = false) var totalCount: Int?=null,
+
+    )
+
+@Root(name= "items")
+data class Items@JvmOverloads constructor(
+    @field:ElementList(name="item",required = false,inline = true)
+    var item: List<Item>?=null
+
+)
+
+@Root
+class Item@JvmOverloads constructor(
+    @field:Element(name = "addr",required = false) var addr: String?=null,
+    @field:Element(name = "clCd",required = false) var clCd: String?=null,
+    @field:Element(name = "clCdNm",required = false) var clCdNm: String?=null,
+    @field:Element(name = "cmdcGdrCnt",required = false) var cmdcGdrCnt: String?=null,
+    @field:Element(name = "cmdcIntnCnt",required = false) var cmdcIntnCnt: String?=null,
+    @field:Element(name = "cmdcResdntCnt",required = false) var cmdcResdntCnt: String?=null,
+    @field:Element(name = "cmdcSdrCnt",required = false) var cmdcSdrCnt: String?=null,
+    @field:Element(name = "detyGdrCnt",required = false) var detyGdrCnt: String?=null,
+    @field:Element(name = "detyIntnCnt",required = false) var detyIntnCnt: String?=null,
+    @field:Element(name = "detyResdntCnt",required = false) var detyResdntCnt: String?=null,
+    @field:Element(name = "detySdrCnt",required = false) var detySdrCnt: String?=null,
+    @field:Element(name = "distance",required = false) var distance: Double?=null,
+    @field:Element(name = "drTotCnt",required = false) var drTotCnt: Int?=null,
+    @field:Element(name = "estbDd") var estbDd: String?=null,
+    @field:Element(name = "mdeptGdrCnt",required = false) var mdeptGdrCnt: String?=null,
+    @field:Element(name = "mdeptIntnCnt",required = false) var mdeptIntnCnt: String?=null,
+    @field:Element(name = "mdeptResdntCnt",required = false) var mdeptResdntCnt: String?=null,
+    @field:Element(name = "mdeptSdrCnt") var mdeptSdrCnt: String?=null,
+    @field:Element(name = "postNo") var postNo: String?=null,
+    @field:Element(name = "sgguCd") var sgguCd: String?=null,
+
+    @field:Element(name = "sgguCdNm") var sgguCdNm: String?=null,
+    @field:Element(name = "sidoCd") var sidoCd: String?=null,
+    @field:Element(name = "sidoCdNm") var sidoCdNm: String?=null,
+    @field:Element(name = "telno") var telno: String?=null,
+    @field:Element(name = "XPos") var XPos: String?=null,
+    @field:Element(name = "YPos") var YPos: String?=null,
+    @field:Element(name = "hospUrl") var hospUrl: String?=null,
+
+    @field:Element(name="yadmNm") var yadmNm: String?=null,
+    @field:Element(name="ykiho") var ykiho: String?=null,
+
+
+
+    )
 
 data class Responsedose(
     @SerializedName("header") val header:dos_header,
     @SerializedName("body") val body:dos_body,
     )
-data class ResponseHos(
-    @SerializedName("header") val header:hos_header,
-    @SerializedName("body") val body:hos_body
-)
+
 
 data class dos_header(
     @SerializedName("resultCode") val resultCode:Int,
@@ -49,18 +134,7 @@ data class dos_body(
     @SerializedName("items") val items: List<doseitem>?
 )
 
-data class hos_header(
-    @SerializedName("resultCode") val resultCode:Int,
-    @SerializedName("resultMsg") val resultMsg:String,
-)
 
-data class hos_body(
-    @SerializedName("pageNo") val pageNo:String?,
-    @SerializedName("totalCount") val totalCount:String?,
-    @SerializedName("numOfRows") val numOfRows:String?,
-
-    @SerializedName("items") val items: List<hosItem>?
-)
 
 data class doseitem(
     @SerializedName("entpName") val entpName:String?,
@@ -82,30 +156,6 @@ data class doseitem(
     @SerializedName("itemImage") val type:String?
 )
 
-
-//병원 데이터
-data class hosItem(
-    @SerializedName("yadmNm") val yadmNm:String?,
-    @SerializedName("addr") val addr:String?,
-    @SerializedName("telno") val telno:String?,
-    @SerializedName("hospUrl") val hospUrl:String?=null,
-    @SerializedName("drTotCnt") val drTotCnt:String,
-    @SerializedName("estbDd") val estbDd:String,
-    @SerializedName("XPos") val xPos:Double?,
-    @SerializedName("YPos") val yPos:Double?,
-    @SerializedName("distance") val distance:String,
-    @SerializedName("emdongNm") val emdongNm: String?,
-    @SerializedName("postNo") val postNo:String,
-    @SerializedName("sgguCd") val sgguCd:String,
-    @SerializedName("sgguCdNm") val sgguCdNm: String?,
-    @SerializedName("sidoCd") val sidoCd: Int?,
-    @SerializedName("sidoCdNm") val sidoCdNm: String?,
-    @SerializedName("clCd") val clCd:String,
-    @SerializedName("clCdNm") val clCdNm:String,
-
-
-
-)
 
 
 
@@ -137,20 +187,20 @@ interface API {
     @GET("B551182/hospInfoService1/getHospBasisList1")
     fun getHospBasisList(
         @Query("serviceKey") serviceKey:String,
-        @Query("pageNo") pageNo:Int?=1,
-        @Query ("numOfRows")  numOfRows:Int?=10,
-        @Query("sidoCd") sidoCd:Int?=null,
-        @Query("sgguCd") sgguCd:Int?=null,
+        @Query("pageNo") pageNo:String?="1",
+        @Query ("numOfRows") numOfRows:String?="10",
+        @Query("sidoCd") sidoCd:String?=null,
+        @Query("sgguCd") sgguCd:String?=null,
         @Query("emdongNm") emdongNm:String?=null,
         @Query("yarmNm") yarmNm:String?=null,
-        @Query("zipCd") zipCd:Int?=null,
-        @Query("clCd") clCd:Int?=null,
-        @Query("dgsbjtCd") dgsbjtCd:Int?=null,
-        @Query("xPos") xPos:Double?=null,
-        @Query("yPos") yPos:Double?=null,
-        @Query("radius") radius:Int?=null,
-        @Query ("type")  type:String="json"
+        @Query("zipCd") zipCd:String?=null,
+        @Query("clCd") clCd: String? =null,
+        @Query("dgsbjtCd") dgsbjtCd:String?=null,
+        @Query("xPos") xPos:String?=null,
+        @Query("yPos") yPos:String?=null,
+        @Query("radius") radius:String?=null,
 
-    ):Call<ResponseHos>
+
+        ):Call<HosInfo>
 
 }
