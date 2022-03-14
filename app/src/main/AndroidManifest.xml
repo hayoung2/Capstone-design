@@ -61,6 +61,8 @@
                     android:scheme="@string/kakao_app_key_kakao" />
             </intent-filter>
         </activity>
+        <receiver android:name=".AlarmReceiver" />
+
     </application>
 
 </manifest>
