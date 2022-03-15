@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationListener
 import android.location.LocationManager
+import android.location.LocationRequest
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,6 +19,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.testapp.MainActivity
 import com.example.testapp.R
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
@@ -25,6 +29,7 @@ class SearchFragment : Fragment() {
     val PERMISSIONS_REQUEST_CODE = 100
     var REQUIRED_PERMISSIONS = arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION)
     var mLocationManager: LocationManager? = null
+    var mLocationListener: LocationListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,10 +46,12 @@ class SearchFragment : Fragment() {
                 Manifest.permission.ACCESS_FINE_LOCATION
             )
             if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-                val mgr = activity?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                val mgr = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+
+
 
                 try {
-                    val userNowLocation: Location? = mgr.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                    val userNowLocation: Location? = mgr?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
                     val uLatitude = userNowLocation!!.latitude
                     Log.d("여기다 여기가 안된다", userNowLocation.toString())
                     val uLongitude = userNowLocation!!.longitude
@@ -66,10 +73,8 @@ class SearchFragment : Fragment() {
         mapViewContainer.addView(mapView)
 
         return view
+
     }
-
-
-
 
 
 
