@@ -44,14 +44,13 @@ class NewsAdapter(val context: Context,val NewsList:ArrayList<News>):BaseAdapter
         num.text=news.num
         title.text=news.title
         contents.text=news.contents
+        Glide.with(view).load(news.img).into(img)
         url=news.url
 
 //        layout.setOnClickListener {
 //            var intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
 //            view.context.startActivity(intent)
 //        }
-
-        Log.d("아아ㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏㅏ몇번 나와니 ","나오니 해봐라")
 
         return view
     }
