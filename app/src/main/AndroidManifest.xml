@@ -9,7 +9,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".GlobalApplication"
@@ -21,8 +24,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".InsertAlarmActivity"></activity>
-        <activity android:name=".HospitalActivity" />
+        <activity android:name=".MapActivity"></activity>
+        <activity android:name=".DiseaseSearch" />
+        <activity android:name=".InsertAlarmActivity" />
+        <activity
+            android:name=".HospitalActivity"
+            android:exported="true" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -61,8 +68,8 @@
                     android:scheme="@string/kakao_app_key_kakao" />
             </intent-filter>
         </activity>
-        <receiver android:name=".AlarmReceiver" />
 
+        <receiver android:name=".AlarmReceiver" />
     </application>
 
 </manifest>

@@ -1,6 +1,11 @@
 package com.example.testapp.fragments
 
+import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +15,8 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.testapp.*
 import com.example.testapp.Adapter.NewsAdapter
@@ -112,6 +119,34 @@ class HomeFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        checkPermission()
+    }
+    fun checkPermission() {
+        val permissionCheck = ContextCompat.checkSelfPermission(
+            context as MainActivity,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            val mgr = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+
+            try {
+                val userNowLocation: Location? = mgr?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                MainActivity.uLatitude = userNowLocation!!.latitude
+                Log.d("여기다 여기가 안된다", userNowLocation.toString())
+                MainActivity.uLongitude=userNowLocation!!.longitude
+                //Log.d("값을 가져와라 제발", uLatitude.toString()+"   "+uLongitude.toString())
+                Log.d("들어가니? ", "들어감")
+            } catch (e: NullPointerException) {
+                Log.e("LOCATION_ERROR", e.toString())
+                Log.d("값 가져와ㅏ라 ", "에러남")
+            }
+        } else {
+            Toast.makeText(context, "위치 권한이 없습니다.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     inner class MyAsyncTask: AsyncTask<String, String, String>() {
         override fun doInBackground(vararg p0: String?): String {
             val doc: Document =Jsoup.connect("$url").get()
@@ -127,6 +162,7 @@ class HomeFragment : Fragment() {
                 contents=element.select("span").text()
                 var img=""
                 img=element.select("img").attr("src")
+
                 Log.d("확인하자 확인하자 ", title + "   " + url + "   " + contents + "   " + img)
 
                 NewsList.add(News(index.toString(), title, url, contents, img))
