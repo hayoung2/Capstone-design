@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.testapp.*
@@ -25,18 +27,22 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class HomeFragment : Fragment() {
-
 
     val url="https://news.naver.com/main/list.naver?mode=LS2D&mid=shm&sid1=103&sid2=241"
     var NewsList = arrayListOf<News>()
     lateinit var hosArr:Array<LinearLayout>
     var arr= arrayOf<String>("05","08","52","10","12","14","11","13","03","80")
+    var strArr=arrayOf<String>("좋은 아침이에요","좋은 오후 보내세요","좋은 꿈 꾸세요")
     val database : FirebaseDatabase = FirebaseDatabase.getInstance()
     val myRef : DatabaseReference = database.reference
-
+    var num=0
+    lateinit var userName:TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,12 +51,17 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view= inflater.inflate(R.layout.fragment_home, container, false)
 
-        val userName=view.findViewById<TextView>(R.id.userName)
+        userName=view.findViewById<TextView>(R.id.userName)
         val medicineSearch=view.findViewById<LinearLayout>(R.id.medicine_search)
 
 
         medicineSearch.setOnClickListener {
             val intent = Intent(activity, MedicineSearch::class.java)
+            startActivity(intent)
+        }
+
+        view.findViewById<LinearLayout>(R.id.disease_search).setOnClickListener {
+            val intent = Intent(activity, DiseaseSearch::class.java)
             startActivity(intent)
         }
 
@@ -75,9 +86,8 @@ class HomeFragment : Fragment() {
             startActivity(nextIntent)
         }
         view.findViewById<LinearLayout>(R.id.item5).setOnClickListener {
-            com.example.testapp.MainActivity.selectedNum=arr[4]
-            val nextIntent =
-                android.content.Intent(context, com.example.testapp.HospitalActivity::class.java)
+            MainActivity.selectedNum=arr[4]
+            val nextIntent = Intent(context, HospitalActivity::class.java)
             startActivity(nextIntent)
         }
         view.findViewById<LinearLayout>(R.id.item6).setOnClickListener {
@@ -109,14 +119,31 @@ class HomeFragment : Fragment() {
 
 
 
-
         MyAsyncTask().execute(url)
         val listview=view.findViewById<ListView>(R.id.news_list)
         val adapter= NewsAdapter(view.context, NewsList)
 
-        userName.text=userName.text.toString() + getName()
+
+        setTextView()
+
 
         return view
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun setTextView() {
+        val currentTime=LocalDateTime.now()
+        val formatType =DateTimeFormatter.ISO_LOCAL_TIME
+        var time=currentTime.format(formatType).substring(0 until 2).toInt()
+        if(5<time && time < 12){
+            num=0
+        }else if(time <19){
+            num=1
+        }else{
+            num=2
+        }
+
+        userName.text=strArr[num]+"\n"+ LoginActivity.currentName+" 님"
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -130,10 +157,12 @@ class HomeFragment : Fragment() {
         )
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
             val mgr = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+            Log.d("여기 확인",mgr.toString())
 
             try {
                 val userNowLocation: Location? = mgr?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
                 MainActivity.uLatitude = userNowLocation!!.latitude
+                Log.d("확인","확인해ㅐ해ㅐ해해해해해햏000000000000000000000000000000000000000")
                 Log.d("여기다 여기가 안된다", userNowLocation.toString())
                 MainActivity.uLongitude=userNowLocation!!.longitude
                 //Log.d("값을 가져와라 제발", uLatitude.toString()+"   "+uLongitude.toString())
@@ -211,12 +240,5 @@ class HomeFragment : Fragment() {
 
     }
 
-    fun getName():String {
-        myRef.child("User").child(LoginActivity.currentUser.toString()).get().addOnSuccessListener {
-            Log.d("아확인헤ㅐ유 ",it.value.toString())
 
-        }
-
-        return ""
-    }
 }
