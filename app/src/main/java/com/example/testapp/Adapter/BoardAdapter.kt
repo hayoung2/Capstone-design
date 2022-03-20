@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testapp.LoginActivity
 import com.example.testapp.MainActivity
+import com.example.testapp.PostActivity
 import com.example.testapp.R
 import com.example.testapp.data.board
 import java.util.*
@@ -36,15 +37,15 @@ class BoardAdapter(var _context : Context, val boardList: MutableList<board>) : 
         holder.itemView.setOnClickListener{
             if(LoginActivity.currentUser=="")
                 return@setOnClickListener
-//            val intent=Intent(_context,PostActivity::class.java)
-//            intent.putExtra("curuser",LoginActivity.currentUser)
-//            intent.putExtra("postkey",boardList.get(position).key)
-//            intent.putExtra("title",boardList.get(position).title)
-//            intent.putExtra("content",boardList.get(position).content)
-//            intent.putExtra("datetime",boardList.get(position).datetime)
-//            intent.putExtra("postuser",boardList.get(position).user)
-//
-//            _context.startActivity(intent)
+            val intent=Intent(_context, PostActivity::class.java)
+            intent.putExtra("curuser",LoginActivity.currentUser)
+            intent.putExtra("postkey",boardList.get(position).key)
+            intent.putExtra("title",boardList.get(position).title)
+            intent.putExtra("content",boardList.get(position).content)
+            intent.putExtra("datetime",boardList.get(position).datetime)
+            intent.putExtra("postuser",boardList.get(position).user)
+
+            _context.startActivity(intent)
 
         }
 

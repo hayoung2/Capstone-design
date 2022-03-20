@@ -1,5 +1,7 @@
 package com.example.testapp.data
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -19,6 +21,8 @@ public class board{
 
 
 
+
+
     constructor(key :String, user: String, title:String, datetime: String, content:String, comment: ArrayList<comment>?=null){
         this.user=user
         this.key=key
@@ -29,6 +33,16 @@ public class board{
         this.comment=comment
 
     }
+
+    constructor(user: String, title:String, datetime: String, content:String, comment: ArrayList<comment>?=null){
+        this.user=user
+        this.title=title
+        this.datetime=datetime
+        this.content=content
+        this.comment=comment
+
+    }
+
     fun toMap():HashMap<String,Any>{
 
         var result :HashMap<String,Any>  = HashMap()
@@ -37,7 +51,10 @@ public class board{
         result.put("user", user);
         result.put("title", title);
         result.put("datetime", datetime.toString());
-        result.put("comment", comment?:"null")
+        if(comment != null){
+            result.put("comment", comment!!)
+        }
+
 
 
 
@@ -66,6 +83,7 @@ class comment : Comparable<Any> {
         this.datetime=datetime
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun toMap():HashMap<String,Any>{
 
         val now = LocalDateTime.now()

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".PostingActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp">
+        <ImageView
+            android:id="@+id/post_exit"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_exit"
+            android:layout_marginLeft="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="글 작성"
+            android:textSize="25sp"
+
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="110dp"
+            />
+
+        <ImageView
+            android:id="@+id/post_done"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_done"
+            android:layout_marginLeft="110dp"
+            />
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_marginTop="5dp"
+        android:background="#d3d3d3"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="제목 "
+            android:textSize="24sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="13dp"
+            />
+        <EditText
+            android:id="@+id/post_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:singleLine="true"
+            android:maxLength="14"
+            android:background="@null"
+            android:layout_marginTop="1.5dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="18sp"
+            android:inputType="textMultiLine|textNoSuggestions"
+            android:text=""
+            />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/post_contents"
+        android:layout_width="350dp"
+        android:layout_height="500dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:maxLines="10"
+        android:lineHeight="25dp"
+         android:inputType="textMultiLine|textNoSuggestions"
+        android:background="@null"
+        android:gravity="top"
+        />
+
+</LinearLayout>
