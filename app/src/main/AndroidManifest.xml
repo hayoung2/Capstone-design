@@ -24,7 +24,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MapActivity"></activity>
+        <activity android:name=".PostingActivity"></activity>
+        <activity android:name=".PostActivity" />
+        <activity android:name=".MapActivity" />
         <activity android:name=".DiseaseSearch" />
         <activity android:name=".InsertAlarmActivity" />
         <activity

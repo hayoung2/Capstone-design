@@ -46,20 +46,21 @@ class InsertAlarmActivity : AppCompatActivity() {
         myIntent = Intent(this, AlarmReceiver::class.java)
         save.setOnClickListener {
             saveAlarmData()
+
         }
 
     }
 
     fun saveAlarmData() {
         myRef.child("User")
-            .child(LoginActivity.currentUser.toString()).child("dose")
+            .child(LoginActivity.currentUser.toString()).child("dose").push()
             .setValue(
                 alarmData(
                     title.text.toString(),
                     name.text.toString(),
-                    name.text.toString(),
-                    name.text.toString(),
-                    name.text.toString()
+                    name.text.toString(),//시작 시간 나중에 설정
+                    name.text.toString(),//끝나는 시간 나중ㅇ ㅔ 설정
+                    timePicker.hour.toString()+":"+timePicker.minute.toString()
                 )
             )
 
@@ -88,9 +89,10 @@ class InsertAlarmActivity : AppCompatActivity() {
 //            pendingIntent
 //        )
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),  AlarmManager.INTERVAL_DAY, pendingIntent);
-
+        finish()
 
     }
+
 }
 
 
