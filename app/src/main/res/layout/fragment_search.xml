@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent">
-    <RelativeLayout
-        android:id="@+id/map_view"
+
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="650dp"
+        android:orientation="vertical"
+        android:id="@+id/rv_board"
+      >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
     <Button
-        android:id="@+id/map_page_location_btn"
+        android:id="@+id/btn_post"
+        android:text="post"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="시바비삽ㄹ"
-        />
-</RelativeLayout>
+        android:layout_marginBottom="40dp"
+        android:layout_marginRight="20dp" />
+
+</LinearLayout>

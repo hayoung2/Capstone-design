@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    tools:context=".fragments.PagerTimeFragment">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="알림 시간"
+        android:fontFamily="@font/notosanskr_bold"
+        android:layout_marginLeft="15dp"
+        android:textSize="25sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/notosanskr_regular"
+        android:text="Q. 복약 알림 시간 설정해주세요"
+        android:layout_marginLeft="21dp"
+        />
+
+
+    <TimePicker
+        android:id="@+id/al_time"
+        android:timePickerMode="spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/save"
+        android:layout_width="380dp"
+        android:layout_height="70dp"
+        android:text="저장"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center_horizontal"
+        />
+</LinearLayout>
