@@ -61,7 +61,7 @@ class Header@JvmOverloads constructor(
     var resultMsg: String?=null
 )
 
-@Root(name = "body")
+@Root(name = "body", strict = false)
 data class Body@JvmOverloads constructor(
     @field:Element(name="items",required = false)
     var items: Items?=null,
@@ -71,7 +71,7 @@ data class Body@JvmOverloads constructor(
 
     )
 
-@Root(name= "items")
+@Root(name= "items", strict = false)
 data class Items@JvmOverloads constructor(
     @field:ElementList(name="item",required = false,inline = true)
     var item: List<Item>?=null
@@ -93,24 +93,25 @@ class Item@JvmOverloads constructor(
     @field:Element(name = "detySdrCnt",required = false) var detySdrCnt: String?=null,
     @field:Element(name = "distance",required = false) var distance: Double?=null,
     @field:Element(name = "drTotCnt",required = false) var drTotCnt: Int?=null,
-    @field:Element(name = "estbDd") var estbDd: String?=null,
+    @field:Element(name = "estbDd",required = false) var estbDd: String?=null,
     @field:Element(name = "mdeptGdrCnt",required = false) var mdeptGdrCnt: String?=null,
     @field:Element(name = "mdeptIntnCnt",required = false) var mdeptIntnCnt: String?=null,
     @field:Element(name = "mdeptResdntCnt",required = false) var mdeptResdntCnt: String?=null,
-    @field:Element(name = "mdeptSdrCnt") var mdeptSdrCnt: String?=null,
-    @field:Element(name = "postNo") var postNo: String?=null,
-    @field:Element(name = "sgguCd") var sgguCd: String?=null,
+    @field:Element(name = "mdeptSdrCnt",required = false) var mdeptSdrCnt: String?=null,
+    @field:Element(name = "postNo",required = false) var postNo: String?=null,
+    @field:Element(name = "sgguCd",required = false) var sgguCd: String?=null,
 
-    @field:Element(name = "sgguCdNm") var sgguCdNm: String?=null,
-    @field:Element(name = "sidoCd") var sidoCd: String?=null,
-    @field:Element(name = "sidoCdNm") var sidoCdNm: String?=null,
-    @field:Element(name = "telno") var telno: String?=null,
-    @field:Element(name = "XPos") var XPos: String?=null,
-    @field:Element(name = "YPos") var YPos: String?=null,
-    @field:Element(name = "hospUrl") var hospUrl: String?=null,
+    @field:Element(name = "sgguCdNm",required = false) var sgguCdNm: String?=null,
+    @field:Element(name = "emdongNm",required = false) var emdongNm: String?=null,
+    @field:Element(name = "sidoCd",required = false) var sidoCd: String?=null,
+    @field:Element(name = "sidoCdNm",required = false) var sidoCdNm: String?=null,
+    @field:Element(name = "telno",required = false) var telno: String?=null,
+    @field:Element(name = "XPos",required = false) var XPos: String?=null,
+    @field:Element(name = "YPos",required = false) var YPos: String?=null,
+   @field:Element(name = "hospUrl",required = false) var hospUrl: String?=null,
 
-    @field:Element(name="yadmNm") var yadmNm: String?=null,
-    @field:Element(name="ykiho") var ykiho: String?=null,
+    @field:Element(name="yadmNm",required = false) var yadmNm: String?=null,
+    @field:Element(name="ykiho",required = false) var ykiho: String?=null,
 
 
 
@@ -196,11 +197,25 @@ interface API {
         @Query("zipCd") zipCd:String?=null,
         @Query("clCd") clCd: String? =null,
         @Query("dgsbjtCd") dgsbjtCd:String?=null,
-        @Query("xPos") xPos:String?=null,
-        @Query("yPos") yPos:String?=null,
-        @Query("radius") radius:String?=null,
+        @Query("xPos") xPos:Double?=null,
+        @Query("yPos") yPos:Double?=null,
+        @Query("radius") radius:Int?=null,
 
 
         ):Call<HosInfo>
 
+
+
+    @GET("1471000/MdcinGrnldntfcInfoService01")
+    fun getMdcinGrnldntfclnfoList(
+        @Query("serviceKey") serviceKey:String,
+        @Query("item_name") itemName:String?=null,
+        @Query("entp_name") entpName: String?=null,
+        @Query("item_seq") itemSeq: String?=null,
+        @Query("img_regist_ts") imgRegisterTs:String?=null,
+        @Query("pageNo") pageNo: Int=1,
+        @Query("numOfRows") numOfRows: Int=3,
+        @Query("edi_code") ediCode:String?=null,
+        @Query("type") type:String="josn"
+        ):Call<HosInfo>
 }
