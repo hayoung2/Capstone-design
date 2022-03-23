@@ -7,44 +7,41 @@
     android:orientation="vertical"
     tools:context=".MedicineSearch">
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="120dp"
-        android:layout_height="60dp"
-        android:entries="@array/spinner_entries"
 
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<com.google.android.material.textfield.TextInputLayout
+    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    android:hint="약 이름"
+    android:layout_marginLeft="10dp"
+    app:helperText="*약 이름을 검색하세요"
+    app:counterEnabled="true"
+    app:counterMaxLength="25"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    >
 
-    <EditText
-        android:id="@+id/tv1"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:text="타이레놀"
-        app:layout_constraintEnd_toStartOf="@+id/button"
-        app:layout_constraintStart_toEndOf="@+id/spinner"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:text="검색"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv2"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        android:scrollbarFadeDuration="0"
-        android:scrollbarAlwaysDrawVerticalTrack="true"
-        android:scrollbars="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv1" />
+        android:id="@+id/tv1"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:maxLength="25"/>
+</com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ry_d_medicine"
+        android:layout_width="370dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        />
 
 
 
