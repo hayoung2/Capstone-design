@@ -2,18 +2,15 @@ package com.example.testapp
 
 import android.app.AlarmManager
 import android.app.PendingIntent
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.SystemClock
-import android.util.Log
 import android.widget.Button
-import android.widget.TextView
 import android.widget.TimePicker
-import android.widget.Toast
+import androidx.viewpager.widget.ViewPager
+import com.example.testapp.Adapter.FragmentAdapter
+import com.example.testapp.fragments.*
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -21,11 +18,17 @@ import java.util.*
 
 class InsertAlarmActivity : AppCompatActivity() {
 
+    companion object{
+        var alarmName:String?=null
+        var alarmMName:String?=null
+        var alarmStart:String?=null
+        var alarmEnd:String?=null
+        var mNum:String?=null
+        var alarmTime:String?=null
+    }
     val database: FirebaseDatabase = FirebaseDatabase.getInstance()
     val myRef: DatabaseReference = database.reference
     lateinit var am: AlarmManager
-    lateinit var name: TextInputEditText
-    lateinit var title: TextInputEditText
     lateinit var save: Button
     lateinit var timePicker: TimePicker
     lateinit var pi: PendingIntent
@@ -38,60 +41,31 @@ class InsertAlarmActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_insert_alarm)
 
-        am = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        name = findViewById(R.id.al_m_name)
-        title = findViewById(R.id.al_title)
-        save = findViewById(R.id.al_save)
-        timePicker = findViewById(R.id.al_time)
-        myIntent = Intent(this, AlarmReceiver::class.java)
-        save.setOnClickListener {
-            saveAlarmData()
+//        am = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//        name = findViewById(R.id.al_m_name)
+//        title = findViewById(R.id.al_title)
+//        save = findViewById(R.id.al_save)
+//        timePicker = findViewById(R.id.al_time)
+//        myIntent = Intent(this, AlarmReceiver::class.java)
+//        save.setOnClickListener {
+//            saveAlarmData()
+//
+//        }
 
-        }
+        var viewPager=findViewById<ViewPager>(R.id.viewPager)
+        var tabLayout=findViewById<TabLayout>(R.id.tabLayout)
 
-    }
-
-    fun saveAlarmData() {
-        myRef.child("User")
-            .child(LoginActivity.currentUser.toString()).child("dose").push()
-            .setValue(
-                alarmData(
-                    title.text.toString(),
-                    name.text.toString(),
-                    name.text.toString(),//시작 시간 나중에 설정
-                    name.text.toString(),//끝나는 시간 나중ㅇ ㅔ 설정
-                    timePicker.hour.toString()+":"+timePicker.minute.toString()
-                )
-            )
-
-        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-
-        val intent = Intent(this, AlarmReceiver::class.java)  // 1
-        val pendingIntent = PendingIntent.getBroadcast(
-            this, AlarmReceiver.NOTIFICATION_ID, intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
-
-
-       var calendar =Calendar.getInstance()
-       // calendar.set(Calendar.YEAR,2022)
-        //calendar.set(Calendar.MONTH,3)
-        //calendar.set(Calendar.DAY_OF_MONTH,14)
-        calendar.set(Calendar.HOUR_OF_DAY,timePicker.hour)
-        calendar.set(Calendar.MINUTE,timePicker.minute)
-        calendar.set(Calendar.SECOND,0)
-
-
-
-//        alarmManager.setExact(
-//            AlarmManager.ELAPSED_REALTIME_WAKEUP,
-//            calendar.timeInMillis,
-//            pendingIntent
-//        )
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),  AlarmManager.INTERVAL_DAY, pendingIntent);
-        finish()
+        val fragmentAdapter= FragmentAdapter(supportFragmentManager)
+        fragmentAdapter.addFragment(PagerSettingFragment(),"알림")
+        fragmentAdapter.addFragment(PagerStartFragment(),"시작일")
+        fragmentAdapter.addFragment(PagerEndFragment(),"마지막일")
+        fragmentAdapter.addFragment(PagerTimeFragment(),"시간")
+        viewPager.adapter=fragmentAdapter
+        tabLayout.setupWithViewPager(viewPager)
 
     }
+
+
 
 }
 
