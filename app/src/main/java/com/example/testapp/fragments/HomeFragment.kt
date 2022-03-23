@@ -2,6 +2,7 @@ package com.example.testapp.fragments
 
 import android.Manifest
 import android.content.Context
+import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -37,8 +38,8 @@ class HomeFragment : Fragment() {
     val url="https://news.naver.com/main/list.naver?mode=LS2D&mid=shm&sid1=103&sid2=241"
     var NewsList = arrayListOf<News>()
     lateinit var hosArr:Array<LinearLayout>
-    var arr= arrayOf<String>("05","08","52","10","12","14","11","13","03","80")
-    var strArr=arrayOf<String>("좋은 아침이에요","좋은 오후 보내세요","좋은 꿈 꾸세요")
+    var arr= arrayOf<String>("05", "08", "52", "10", "12", "14", "11", "13", "03", "80")
+    var strArr=arrayOf<String>("좋은 아침이에요", "좋은 오후 보내세요", "좋은 꿈 꾸세요")
     val database : FirebaseDatabase = FirebaseDatabase.getInstance()
     val myRef : DatabaseReference = database.reference
     var num=0
@@ -130,6 +131,7 @@ class HomeFragment : Fragment() {
         return view
     }
 
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun setTextView() {
         val currentTime=LocalDateTime.now()
@@ -148,24 +150,59 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         checkPermission()
     }
+
     fun checkPermission() {
         val permissionCheck = ContextCompat.checkSelfPermission(
             context as MainActivity,
             Manifest.permission.ACCESS_FINE_LOCATION
         )
-        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            val mgr = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager?
-            Log.d("여기 확인",mgr.toString())
 
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+
+            val mgr = requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+            Log.d("여기 확인", mgr.toString())
+
+            var isGPSEnabled = mgr?.isProviderEnabled(LocationManager.GPS_PROVIDER)
+            // getting network status
+            var isNetworkEnabled = mgr?.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
             try {
-                val userNowLocation: Location? = mgr?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                var userNowLocation: Location? = mgr?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+
+                if(isGPSEnabled == true){
+                    userNowLocation=mgr?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                }else if(isNetworkEnabled==true){
+                    userNowLocation=mgr?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                }else{
+                    Log.d("둘다 ","둘다 불가 ")
+                }
+
+               Log.d("확인 다 ", userNowLocation.toString())
+
+                if(userNowLocation==null)
+                    userNowLocation= mgr?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+
+                if(userNowLocation==null)
+                    userNowLocation= mgr?.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
+                Log.d("확인 다 ", userNowLocation.toString())
+
+                if(userNowLocation==null)
+                    userNowLocation= mgr?.getLastKnownLocation(LocationManager.EXTRA_PROVIDER_ENABLED)
+                Log.d("확인 다 ", userNowLocation.toString())
+
+
+
+
                 MainActivity.uLatitude = userNowLocation!!.latitude
-                Log.d("확인","확인해ㅐ해ㅐ해해해해해햏000000000000000000000000000000000000000")
+                Log.d("확인", "확인해ㅐ해ㅐ해해해해해햏000000000000000000000000000000000000000")
                 Log.d("여기다 여기가 안된다", userNowLocation.toString())
                 MainActivity.uLongitude=userNowLocation!!.longitude
-                //Log.d("값을 가져와라 제발", uLatitude.toString()+"   "+uLongitude.toString())
+                Log.d(
+                    "값을 가져와라 제발",
+                    MainActivity.uLatitude.toString() + "   " + MainActivity.uLongitude.toString()
+                )
                 Log.d("들어가니? ", "들어감")
             } catch (e: NullPointerException) {
                 Log.e("LOCATION_ERROR", e.toString())
@@ -173,7 +210,10 @@ class HomeFragment : Fragment() {
             }
         } else {
             Toast.makeText(context, "위치 권한이 없습니다.", Toast.LENGTH_SHORT).show()
+            Log.d("실패", "완전실패")
         }
+
+
     }
 
     inner class MyAsyncTask: AsyncTask<String, String, String>() {
