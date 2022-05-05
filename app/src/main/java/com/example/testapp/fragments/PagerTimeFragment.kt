@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getSystemService
 import com.example.testapp.*
@@ -48,37 +49,40 @@ class PagerTimeFragment : Fragment() {
             InsertAlarmActivity.alarmMName.toString()+
             InsertAlarmActivity.alarmStart.toString()+
             InsertAlarmActivity.alarmEnd.toString()+"ghkrdls 확ㅌ인 ")
-        myRef.child("User")
-            .child(LoginActivity.currentUser.toString()).child("alarm").push()
-            .setValue(
-                AlarmData(
-                    InsertAlarmActivity.alarmName.toString(),
-                    InsertAlarmActivity.alarmMName.toString(),
-                    InsertAlarmActivity.mNum.toString(),
-                    InsertAlarmActivity.alarmStart.toString(),//시작 시간 나중에 설정
-                    InsertAlarmActivity.alarmEnd.toString(),//끝나는 시간 나중ㅇ ㅔ 설정
-                    timePicker.hour.toString()+":"+timePicker.minute.toString(),
-                    LoginActivity.currentName.toString()
+        if(InsertAlarmActivity.alarmMName.toString()==null && InsertAlarmActivity.alarmName.toString()==null){
+            Toast.makeText(context,"모두 입력해주세요",Toast.LENGTH_SHORT).show()
+        }else{
+            myRef.child("User")
+                .child(LoginActivity.currentUser.toString()).child("alarm").push()
+                .setValue(
+                    AlarmData(
+                        InsertAlarmActivity.alarmName.toString(),
+                        InsertAlarmActivity.alarmMName.toString(),
+                        InsertAlarmActivity.mNum.toString(),
+                        InsertAlarmActivity.alarmStart.toString(),//시작 시간 나중에 설정
+                        InsertAlarmActivity.alarmEnd.toString(),//끝나는 시간 나중ㅇ ㅔ 설정
+                        timePicker.hour.toString()+":"+timePicker.minute.toString(),
+                        LoginActivity.currentName.toString()
+                    )
                 )
+
+            val alarmManager = context?.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
+
+            val intent = Intent(context, AlarmReceiver::class.java)
+            intent.putExtra("name",InsertAlarmActivity.alarmName.toString())// 1
+            val pendingIntent = PendingIntent.getBroadcast(
+                context, AlarmReceiver.NOTIFICATION_ID, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT
             )
 
-        val alarmManager = context?.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
 
-        val intent = Intent(context, AlarmReceiver::class.java)
-        intent.putExtra("name",InsertAlarmActivity.alarmName.toString())// 1
-        val pendingIntent = PendingIntent.getBroadcast(
-            context, AlarmReceiver.NOTIFICATION_ID, intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
-
-
-        var calendar = Calendar.getInstance()
-        // calendar.set(Calendar.YEAR,2022)
-        //calendar.set(Calendar.MONTH,3)
-        //calendar.set(Calendar.DAY_OF_MONTH,14)
-        calendar.set(Calendar.HOUR_OF_DAY,timePicker.hour)
-        calendar.set(Calendar.MINUTE,timePicker.minute)
-        calendar.set(Calendar.SECOND,0)
+            var calendar = Calendar.getInstance()
+            // calendar.set(Calendar.YEAR,2022)
+            //calendar.set(Calendar.MONTH,3)
+            //calendar.set(Calendar.DAY_OF_MONTH,14)
+            calendar.set(Calendar.HOUR_OF_DAY,timePicker.hour)
+            calendar.set(Calendar.MINUTE,timePicker.minute)
+            calendar.set(Calendar.SECOND,0)
 
 
 
@@ -87,9 +91,11 @@ class PagerTimeFragment : Fragment() {
 //            calendar.timeInMillis,
 //            pendingIntent
 //        )
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),  AlarmManager.INTERVAL_DAY, pendingIntent);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),  AlarmManager.INTERVAL_DAY, pendingIntent);
 
-        activity?.finish()
+            activity?.finish()
+        }
+
     }
     companion object {
 
