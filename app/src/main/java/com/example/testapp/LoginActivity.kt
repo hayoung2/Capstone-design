@@ -15,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
-import com.kakao.sdk.auth.LoginClient
+
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.user.UserApiClient
@@ -24,6 +24,9 @@ import com.kakao.sdk.user.model.User
 class LoginActivity : AppCompatActivity() {
     companion object{
         var currentUser: String?=null
+        var type:String? =null
+        var currentName:String?=null
+        var profileImg:String?=""
     }
     private var mBinding: ActivityLoginBinding? = null
     private val binding get() = mBinding!!
@@ -56,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
         binding.btnGoogle.setOnClickListener {
             val signInIntent=googleSignInClient?.signInIntent
             startActivityForResult(signInIntent,RC_SIGN_IN)
-
+            type="g"
         }
 
 
@@ -67,13 +70,18 @@ class LoginActivity : AppCompatActivity() {
 
             }
             else if (tokenInfo != null) {
-                Toast.makeText(this, "토큰 정보 보기 성공", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, MainActivity::class.java)
                 UserApiClient.instance.me { user, error ->
                     currentUser=user?.id.toString()
-                    myRef.child("User").child(user?.id.toString()).setValue(User(user?.kakaoAccount?.profile?.nickname.toString()))
+                    currentName=user?.kakaoAccount?.profile?.nickname.toString()
+                    profileImg=user?.kakaoAccount?.profile?.profileImageUrl.toString()
+                    Log.d("확인 부탁 합"," 확인차 "+profileImg)
+                    myRef.child("User").get().addOnSuccessListener {
+                       Log.d("확인 ",it.value.toString())
+                    }
+                        myRef.child("User").child(user?.id.toString()).setValue(User(user?.kakaoAccount?.profile?.nickname.toString()))
                 }
-
+                type="k"
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 finish()
             }
@@ -112,18 +120,25 @@ class LoginActivity : AppCompatActivity() {
             }
             else if (token != null) {
                 Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+                UserApiClient.instance.me { user, error ->
+                    currentUser=user?.id.toString()
+                    currentName=user?.kakaoAccount?.profile?.nickname.toString()
+                    profileImg=user?.kakaoAccount?.profile?.profileImageUrl.toString()
+                    Log.d("확인 부탁 합"," 확인차 "+profileImg)
+                }
                 val intent = Intent(this, MainActivity::class.java)
+                type="k"
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 finish()
             }
         }
          // 로그인 버튼
         binding.btnKakao.setOnClickListener {
-            if(LoginClient.instance.isKakaoTalkLoginAvailable(this)){
-                LoginClient.instance.loginWithKakaoTalk(this, callback = callback)
-
+            type="k"
+            if(UserApiClient.instance.isKakaoTalkLoginAvailable(this)){
+                UserApiClient.instance.loginWithKakaoTalk(this, callback = callback)
             }else{
-                LoginClient.instance.loginWithKakaoAccount(this, callback = callback)
+                UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
             }
         }
     }
@@ -149,7 +164,15 @@ class LoginActivity : AppCompatActivity() {
             if (it.isSuccessful){
                 val user=firebaseAuth?.currentUser
                 currentUser=user?.uid
-                myRef.child("User").child(user!!.uid).setValue(User(user.displayName.toString()))
+                currentName=user?.displayName
+                profileImg=user?.photoUrl.toString()
+                Log.d("확인 부탁 합"," 확인차 "+profileImg)
+               type="g"
+                myRef.child("User").get().addOnSuccessListener {
+                    if(!it.hasChild(user!!.uid)){
+                        myRef.child("User").child(user!!.uid).setValue(User(user.displayName.toString()))
+                    }
+                }
                val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 finish()
