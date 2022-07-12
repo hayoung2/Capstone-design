@@ -38,7 +38,7 @@ class HomeFragment : Fragment() {
     val url="https://news.naver.com/main/list.naver?mode=LS2D&mid=shm&sid1=103&sid2=241"
     var NewsList = arrayListOf<News>()
     lateinit var hosArr:Array<LinearLayout>
-    var arr= arrayOf<String>("05", "08", "52", "10", "12", "14", "11", "13", "03", "80")
+    var arr= arrayOf<String>("05", "08", "52", "10", "12", "14", "11", "13", "03", "80","04","01","24")
     var strArr=arrayOf<String>("좋은 아침이에요", "좋은 오후 보내세요", "좋은 꿈 꾸세요")
     val database : FirebaseDatabase = FirebaseDatabase.getInstance()
     val myRef : DatabaseReference = database.reference
@@ -117,6 +117,25 @@ class HomeFragment : Fragment() {
             startActivity(nextIntent)
         }
 
+        view.findViewById<LinearLayout>(R.id.item11).setOnClickListener {
+            MainActivity.selectedNum=arr[10]
+            val nextIntent = Intent(context, HospitalActivity::class.java)
+            startActivity(nextIntent)
+        }
+
+        view.findViewById<LinearLayout>(R.id.item12).setOnClickListener {
+            MainActivity.selectedNum=arr[11]
+            val nextIntent = Intent(context, HospitalActivity::class.java)
+            startActivity(nextIntent)
+        }
+
+        view.findViewById<LinearLayout>(R.id.item13).setOnClickListener {
+            MainActivity.selectedNum=arr[12]
+            val nextIntent = Intent(context, HospitalActivity::class.java)
+            startActivity(nextIntent)
+        }
+
+
 
 
 
@@ -139,7 +158,7 @@ class HomeFragment : Fragment() {
         var time=currentTime.format(formatType).substring(0 until 2).toInt()
         if(5<time && time < 12){
             num=0
-        }else if(time <19){
+        }else if(12<= time&& time <19){
             num=1
         }else{
             num=2
@@ -192,6 +211,17 @@ class HomeFragment : Fragment() {
                     userNowLocation= mgr?.getLastKnownLocation(LocationManager.EXTRA_PROVIDER_ENABLED)
                 Log.d("확인 다 ", userNowLocation.toString())
 
+                if(userNowLocation==null)
+                    userNowLocation= mgr?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                Log.d("확인 다 ", userNowLocation.toString())
+
+                if(userNowLocation==null)
+                    userNowLocation= mgr?.getLastKnownLocation(LocationManager.FUSED_PROVIDER)
+                Log.d("확인 다 ", userNowLocation.toString())
+
+                if(userNowLocation==null)
+                    userNowLocation= mgr?.getLastKnownLocation(LocationManager.EXTRA_LOCATION_ENABLED)
+                Log.d("확인 다 ", userNowLocation.toString())
 
 
 
