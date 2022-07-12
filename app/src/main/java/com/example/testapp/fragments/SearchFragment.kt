@@ -16,6 +16,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -30,10 +32,7 @@ import com.example.testapp.data.board
 import com.example.testapp.data.comment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 import java.util.ArrayList
@@ -46,6 +45,7 @@ class SearchFragment : Fragment() {
     private val databaseReference = firebaseDatabase.reference
 
     lateinit var rv: RecyclerView
+    lateinit var contents:EditText
 
     companion object{
         var boardlist: ArrayList<board> = ArrayList()
@@ -63,13 +63,42 @@ class SearchFragment : Fragment() {
         currentuser=LoginActivity.currentUser.toString()
         loaddata()
 
-        view.findViewById<Button>(R.id.btn_post).setOnClickListener {
+        view.findViewById<ImageButton>(R.id.btn_post).setOnClickListener {
             val intent= Intent(context,PostingActivity::class.java)
             startActivity(intent)
+        }
+        contents=view.findViewById<EditText>(R.id.search_community)
+        view.findViewById<ImageButton>(R.id.btn_community_search).setOnClickListener {
+            loaddata()
         }
         return view
     }
 
+    fun searchData(contents : String) {
+        databaseReference.child("BOARD").orderByChild("content").startAt(contents).addChildEventListener(object : ChildEventListener{
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val result=snapshot.value
+                Log.d("확인 ",result.toString())
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
 
 
     fun loaddata() {
@@ -85,6 +114,11 @@ class SearchFragment : Fragment() {
                     var map = i.value as Map<String, Any>
                     var user = map["user"].toString()
                     var title = map["title"].toString()
+
+                    if(contents.text.toString()!="" && !title.contains(contents.text.toString())){
+                        continue
+                    }
+
                     var datetime = map["datetime"].toString()
                     var content = map["content"].toString()
                     var arr: ArrayList<comment> = ArrayList()
@@ -125,4 +159,7 @@ class SearchFragment : Fragment() {
         }
         databaseReference.child("BOARD").addValueEventListener(postListener)
     }
+
+
+
 }
