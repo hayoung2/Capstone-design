@@ -48,7 +48,7 @@ class Alarmadapter(var context: Context) : RecyclerView.Adapter<Alarmadapter.Vie
         private val alarmDate:TextView=itemView.findViewById(R.id.item_date)
         private val alarmTime:TextView=itemView.findViewById(R.id.item_alarm_time)
         private val alarmNum:TextView=itemView.findViewById(R.id.item_alarm_num)
-        private val alarmDelete:ImageView=itemView.findViewById(R.id.delete_alarm)
+//        private val alarmDelete:ImageView=itemView.findViewById(R.id.delete_alarm)
 
         fun bind(item: AlarmData) {
             alarmName.text = item.alarmName
@@ -58,9 +58,9 @@ class Alarmadapter(var context: Context) : RecyclerView.Adapter<Alarmadapter.Vie
             alarmNum.text = item.alarmNum + " 정 "
             alarmUserName.text = " By " + item.userName + " 님"
 
-            alarmDelete.setOnClickListener {
-                myRef.child("User").child(LoginActivity.currentUser.toString()).child("alarm")
-            }
+//            alarmDelete.setOnClickListener {
+//                myRef.child("User").child(LoginActivity.currentUser.toString()).child("alarm")
+//            }
         }
     }
 

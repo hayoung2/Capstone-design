@@ -38,18 +38,19 @@ class HospitalAdapter(private val context: Context) : RecyclerView.Adapter<Hospi
 
         private val name: TextView = itemView.findViewById(R.id.hos_name)
         private val address: TextView = itemView.findViewById(R.id.hos_address)
-        private val tel: TextView = itemView.findViewById(R.id.hos_tel)
+        //private val tel: TextView = itemView.findViewById(R.id.hos_tel)
         private val btn: Button = itemView.findViewById(R.id.btn_tel)
         private val layout:LinearLayout=itemView.findViewById(R.id.layout_hos)
 
         fun bind(item: Hospital) {
             name.text = item.name
             address.text = item.address
-            tel.text = item.tel
+           // tel.text = item.tel
             layout.setOnClickListener {
                 val intent = Intent(context, MapActivity::class.java)
                 intent.putExtra("xPos",item.xPos.toString())
                 intent.putExtra("yPos",item.yPos.toString())
+                intent.putExtra("hosName",item.name.toString())
                 context.startActivity(intent)
             }
             btn.setOnClickListener {

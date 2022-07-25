@@ -7,10 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -34,7 +31,7 @@ class NewsAdapter(val context: Context,val NewsList:ArrayList<News>):BaseAdapter
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
         val view:View =LayoutInflater.from(context).inflate(R.layout.list_item_news,null)
 
-        val layout=view.findViewById<ListView>(R.id.news_list)
+        val layout=view.findViewById<LinearLayout>(R.id.ly_news)
         val num=view.findViewById<TextView>(R.id.list_news_number)
         val title=view.findViewById<TextView>(R.id.lits_news_title)
         val contents=view.findViewById<TextView>(R.id.list_news_contents)
@@ -47,10 +44,10 @@ class NewsAdapter(val context: Context,val NewsList:ArrayList<News>):BaseAdapter
         Glide.with(view).load(news.img).into(img)
         url=news.url
 
-//        layout.setOnClickListener {
-//            var intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-//            view.context.startActivity(intent)
-//        }
+        layout.setOnClickListener {
+            var intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            context.startActivity(intent)
+        }
 
         return view
     }

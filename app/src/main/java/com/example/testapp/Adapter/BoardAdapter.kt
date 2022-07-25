@@ -12,9 +12,15 @@ import com.example.testapp.MainActivity
 import com.example.testapp.PostActivity
 import com.example.testapp.R
 import com.example.testapp.data.board
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 import java.util.*
 
 class BoardAdapter(var _context : Context, val boardList: MutableList<board>) : RecyclerView.Adapter<BoardAdapter.CustomViewHolder>() {
+
+    var lastPostion:Int=1
+    private val firebaseDatabase = FirebaseDatabase.getInstance()
+    private val myRef = firebaseDatabase.reference
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -32,13 +38,16 @@ class BoardAdapter(var _context : Context, val boardList: MutableList<board>) : 
 
         holder.title.text=boardList.get(position).title
         holder.content.text=boardList.get(position).content
-        holder.user.text=boardList.get(position).user
+        myRef.child("User").child(boardList.get(position).user)
+            .child("name").get().addOnSuccessListener {
+                holder.user.text="작성자 : "+it.value.toString()+" 님"
+            }
 
         holder.itemView.setOnClickListener{
             if(LoginActivity.currentUser=="")
                 return@setOnClickListener
             val intent=Intent(_context, PostActivity::class.java)
-            intent.putExtra("curuser",LoginActivity.currentUser)
+            intent.putExtra("curuser",LoginActivity.currentName)
             intent.putExtra("postkey",boardList.get(position).key)
             intent.putExtra("title",boardList.get(position).title)
             intent.putExtra("content",boardList.get(position).content)
