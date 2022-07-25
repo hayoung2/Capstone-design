@@ -12,9 +12,15 @@
 /captures
 .externalNativeBuild
 .cxx
+/app/libs
 /app/google-services.json
 /app/src/main/res/values
-
+/app/src/main/res/drawable
+/app/src/main/res/drawable-anydpi
+/app/src/main/res/drawable-hdpi
+/app/src/main/res/drawable-xhdpi
+/app/src/main/res/drawable-xxhdpi
+/app/src/main/res/drawable-mdpi
 # Created by https://www.toptal.com/developers/gitignore/api/kotlin,android
 # Edit at https://www.toptal.com/developers/gitignore?templates=kotlin,android
 
