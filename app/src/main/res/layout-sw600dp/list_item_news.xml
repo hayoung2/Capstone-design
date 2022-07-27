@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/ly_news"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="500dp"
+    android:background="@drawable/layout_border"
+    android:layout_height="100dp"
+    android:orientation="horizontal"
+    android:layout_gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/list_news_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="13dp"
+        />
+
+    <ImageView
+        android:id="@+id/list_news_img"
+        android:layout_width="65dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="15dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/login_background"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/lits_news_title"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text=""/>
+
+        <TextView
+            android:id="@+id/list_news_contents"
+            android:layout_width="306dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="10dp"
+            android:text="여성의 구강 건강이 좋지 않으면 고혈압이 발생할 위험이 높다는 연구 결과가 나왔다. 미국 뉴욕주립대 연구팀은 51~83세 여성 …"
+            android:textSize="10sp" />
+    </LinearLayout>
+</LinearLayout>

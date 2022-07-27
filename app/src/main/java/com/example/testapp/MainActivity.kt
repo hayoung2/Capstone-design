@@ -9,12 +9,16 @@ import com.example.testapp.databinding.ActivityMainBinding
 import com.example.testapp.fragments.HomeFragment
 import com.example.testapp.fragments.ScheduleFragment
 import com.example.testapp.fragments.SearchFragment
+import com.example.testapp.fragments.SettingFragment
 
 
 class MainActivity : AppCompatActivity() {
 
     companion object{
         var selectedNum :String ="0"
+        var uLatitude:Double?=null
+        var uLongitude:Double?=null
+
     }
 
     private var mBinding: ActivityMainBinding? = null
@@ -22,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var homeFragment: HomeFragment
     lateinit var SearchFragment:SearchFragment
     lateinit var ScheduleFragment:ScheduleFragment
+    lateinit var SettingFragment:SettingFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +63,13 @@ class MainActivity : AppCompatActivity() {
                     ScheduleFragment= ScheduleFragment()
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.frameLayout,ScheduleFragment)
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .commit()
+                }
+                R.id.myData->{
+                    SettingFragment=SettingFragment()
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.frameLayout,SettingFragment)
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .commit()
                 }

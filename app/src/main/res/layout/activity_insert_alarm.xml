@@ -7,48 +7,44 @@
     android:orientation="vertical"
     tools:context=".InsertAlarmActivity">
 
-    <TimePicker
-        android:id="@+id/al_time"
-        android:timePickerMode="spinner"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        app:helperText="*필수항목"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_marginTop="20dp"
+        android:layout_height="255dp"
         >
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/al_title"
-        android:layout_width="308dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="10dp"
-        android:hint="알림 이름" />
-    </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="15dp">
-    <com.google.android.material.textfield.TextInputEditText
-       android:id="@+id/al_m_name"
-        android:layout_width="308dp"
-        android:layout_marginTop="10dp"
-        android:layout_height="60dp"
-        android:hint="약 이름"/>
+        <com.scwang.wave.MultiWaveHeader
+            android:id="@+id/waveHeader"
+            android:layout_width="match_parent"
+            app:mwhVelocity="2"
+            android:layout_height="200dp"/>
+</RelativeLayout>
 
-    </com.google.android.material.textfield.TextInputLayout>
+       <com.google.android.material.appbar.AppBarLayout
+           android:id="@+id/appBarLayout"
+           android:layout_width="match_parent"
+           android:background="#ffffff"
+           android:elevation="0dp"
+           android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/al_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="저장"/>
+          <com.google.android.material.tabs.TabLayout
+              android:id="@+id/tabLayout"
+              android:layout_width="match_parent"
+              android:background="@drawable/top_round"
+              android:elevation="0dp"
+              android:layout_height="wrap_content">
+
+          </com.google.android.material.tabs.TabLayout>
+
+
+       </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager.widget.ViewPager
+           android:id="@+id/viewPager"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           />
+
+
+
 </LinearLayout>
