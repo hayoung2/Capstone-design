@@ -90,6 +90,7 @@
                     android:textColor="@color/text_original"
                     android:textSize="12dp" />
 
+
             </LinearLayout>
 
 
@@ -155,6 +156,72 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/item11"
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/layout_border"
+                    android:elevation="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/i11" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="외과"
+                        android:textSize="9sp"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/item12"
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/layout_border"
+                    android:elevation="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/i12" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="내과"
+                        android:textSize="9sp"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/item13"
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/layout_border"
+                    android:elevation="5dp"
+                    android:layout_marginLeft="15dp"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/i13" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="응급의학과"
+                        android:textSize="9sp"
+                        android:layout_gravity="center"/>
+                </LinearLayout>
                 <LinearLayout
                     android:id="@+id/item1"
                     android:layout_width="60dp"
@@ -169,7 +236,7 @@
                         android:layout_height="35dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
-                        android:src="@drawable/ic_or" />
+                        android:src="@drawable/i1" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -238,7 +305,7 @@
                         android:layout_height="35dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
-                        android:src="@mipmap/ic_teetch" />
+                        android:src="@drawable/i4" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -260,7 +327,7 @@
                         android:layout_height="35dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
-                        android:src="@mipmap/ic_teetch" />
+                        android:src="@drawable/i5" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -306,7 +373,7 @@
                         android:layout_height="35dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
-                        android:src="@mipmap/ic_teetch" />
+                        android:src="@drawable/i7" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -328,13 +395,14 @@
                         android:layout_height="35dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
-                        android:src="@mipmap/ic_teetch" />
+                        android:src="@drawable/i8" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="이비인후과"
                         android:textSize="9sp"
                         android:layout_gravity="center"/>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -350,7 +418,7 @@
                         android:layout_height="35dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
-                        android:src="@mipmap/ic_teetch" />
+                        android:src="@drawable/i9" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -372,7 +440,7 @@
                         android:layout_height="35dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
-                        android:src="@mipmap/ic_teetch" />
+                        android:src="@drawable/i10" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -381,6 +449,9 @@
                         android:layout_gravity="center"/>
                 </LinearLayout>
 
+                <TextView
+                    android:layout_width="20dp"
+                    android:layout_height="70dp"/>
             </LinearLayout>
         </HorizontalScrollView>
 
@@ -420,16 +491,19 @@
             android:layout_gravity="center_horizontal"
             android:layout_height="wrap_content"/>
 
+
+
         <LinearLayout
+            android:layout_marginTop="50dp"
             android:layout_width="match_parent"
-            android:layout_height="100px"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="여기까지 나와야해"/>
+                android:layout_height="50dp"
+                />
         </LinearLayout>
     </LinearLayout>
+
 
     </ScrollView>
 

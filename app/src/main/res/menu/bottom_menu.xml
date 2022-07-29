@@ -14,4 +14,8 @@
         android:title="일정관리"
         android:icon="@mipmap/ic_schedule"
         />
+    <item android:id="@+id/myData"
+        android:title="내정보"
+        android:icon="@mipmap/ic_etc"
+        />
 </menu>
