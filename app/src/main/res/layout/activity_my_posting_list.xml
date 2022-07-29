@@ -19,7 +19,7 @@
             android:layout_gravity="center_horizontal"
             android:orientation="vertical"
             android:background="@android:color/transparent"
-            android:id="@+id/rv_board" />
+            android:id="@+id/rv_user_postList" />
 
 
     </ScrollView>
