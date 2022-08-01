@@ -21,31 +21,45 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="M알림에서 다양한 서비스를 경험해보세요"
-            android:textSize="15sp"
-            android:layout_marginTop="4dp"
             android:layout_gravity="center_horizontal"
-            android:lineSpacingExtra="20dp"
-            android:textColor="@color/places_text_black_alpha_87"
+            android:layout_marginTop="4dp"
             android:fontFamily="@font/notosanskr_bold"
-          />
+            android:lineSpacingExtra="20dp"
+            android:text="M알림에서 다양한 서비스를 경험해보세요"
+            android:textColor="@color/places_text_black_alpha_87"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/btn_email"
+            android:layout_width="310dp"
+            android:layout_height="55dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="160dp"
+            android:text="이메일로 로그인" />
 
         <Button
             android:id="@+id/btn_kakao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="290dp"
-            android:background="@drawable/kakao_login_medium_wide"/>
+            android:layout_marginTop="8dp"
+            android:background="@drawable/kakao_login_medium_wide" />
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/btn_google"
             android:layout_width="310dp"
-            android:layout_gravity="center"
             android:layout_height="55dp"
+            android:layout_gravity="center"
             android:layout_marginTop="10dp"></com.google.android.gms.common.SignInButton>
 
-
+        <TextView
+            android:id="@+id/txt_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="회원가입이 필요하신가요?"
+            android:textColor="@color/text_gray" />
 
 
     </LinearLayout>

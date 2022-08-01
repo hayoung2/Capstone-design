@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.Toast
 import com.example.testapp.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -37,7 +38,6 @@ class LoginActivity : AppCompatActivity() {
     val database : FirebaseDatabase = FirebaseDatabase.getInstance()
     val myRef : DatabaseReference = database.reference
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -48,6 +48,7 @@ class LoginActivity : AppCompatActivity() {
             .build()
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
+
 
         mBinding= ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -62,8 +63,15 @@ class LoginActivity : AppCompatActivity() {
             type="g"
         }
 
+        binding.btnEmail.setOnClickListener {
+            val intent=Intent(this,EmailLoginActivity::class.java)
+            startActivity(intent)
+        }
 
-
+        binding.txtSignup.setOnClickListener {
+            val intent=Intent(this,RegisterActivity::class.java)
+            startActivity(intent)
+        }
 
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
             if (error != null) {

@@ -7,4 +7,5 @@
     <color name="white">#ffffff</color>
     <color name="layout_background_gray">#f3f0f0</color>
     <color name="text_original">#000000</color>
+    <color name="text_gray">#767474</color>
 </resources>
